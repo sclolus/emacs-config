@@ -1,20 +1,24 @@
 (setq-default c-default-style "linux"
  c-basic-offset 4
  tab-width 4
- indent-tabs-mode t)
+ indent-tabs-mode t
+ setq column-number-mode t)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
- '(tab-stop-list (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 86 90 94 0))))
+ '(send-mail-function (quote mailclient-send-it))
+ '(tab-stop-list
+   (quote
+	(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 86 90 94 0))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 ;*******************************************************************************;
 ;                                                                               ;
@@ -40,7 +44,7 @@
 ;    By: login____ <mail_______@student.42.fr>      +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: yyyy/mm/dd 15:27:11 by login____         #+#    #+#              ;
-;    Updated: yyyy/mm/dd 15:27:11 by login____        ###   ########.fr        ;
+;    Updated: 2017/05/05 18:22:33 by sclolus          ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
