@@ -14,6 +14,8 @@
  '(tab-stop-list
    (quote
 	(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 86 90 94 0))))
+(add-hook 'c-mode-hook
+		  (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -44,7 +46,7 @@
 ;    By: login____ <mail_______@student.42.fr>      +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: yyyy/mm/dd 15:27:11 by login____         #+#    #+#              ;
-;    Updated: 2017/05/05 18:22:33 by sclolus          ###   ########.fr        ;
+;    Updated: 2017/05/05 21:00:28 by sclolus          ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
