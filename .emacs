@@ -1,8 +1,37 @@
-(setq-default c-default-style "linux"
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+(setq-default c-default-style `((java-mode . "linux") (other . "linux"))
  c-basic-offset 4
+ jave-basic-offset 4
  tab-width 4
  indent-tabs-mode t
  column-number-mode t)
+(add-to-list 'load-path "~/.emacs.d/rust")
+(add-to-list 'load-path "~/.emacs.d/json")
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(add-to-list 'auto-mode-alist '("\\.cl\\'". c-mode))
+(add-to-list 'auto-mode-alist '("\\.s\\'" . nasm-mode))
+
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+(unless (package-installed-p 'use-package)
+ (package-refresh-contents)
+ (package-install 'use-package))
+(use-package undo-tree
+ :ensure t
+ :diminish
+ :config
+ (global-undo-tree-mode)
+ (setq undo-tree-visualizer-timestamps t)
+ (setq undo-tree-visualizer-diff t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -10,6 +39,7 @@
  ;; If there is more than one, they won't work right.
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
+ '(package-selected-packages (quote (caml slime trr nasm-mode helm)))
  '(send-mail-function (quote mailclient-send-it))
  '(tab-stop-list
    (quote
@@ -22,6 +52,42 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(setq mac-option-modifier 'super)
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)
+
+(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp")
+(require 'column-marker)
+(require 'helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-M-M") 'helm-man-woman)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x C-b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-h f") 'helm-apropos)
+(global-set-key (kbd "C-h r") 'helm-info-emacs)
+(global-set-key (kbd "C-h C-l") 'helm-locate-library)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-z")  'helm-select-action)
+
+;; (load "/Users/sclolus/.opam/default/share/emacs/site-lisp/tuareg-site-file")
+(load "/Users/sclolus/.opam/ocaml-base-compiler.4.07.0/share/emacs/site-lisp/tuareg-site-file")
+(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+  (when (and opam-share (file-directory-p opam-share))
+	;; Register Merlin
+	(add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+	(autoload 'merlin-mode "merlin" nil t nil)
+	;; Automatically start it in OCaml buffers
+	(add-hook 'tuareg-mode-hook 'merlin-mode t)
+	(add-hook 'caml-mode-hook 'merlin-mode t)
+	;; Use opam switch to lookup ocamlmerlin binary
+	(setq merlin-command 'opam)))
+(require 'undo-tree)
+(column-marker-3 80)
+
 ;*******************************************************************************;
 ;                                                                               ;
 ;                   42_header.el for 42 Emacs header                            ;
@@ -46,7 +112,7 @@
 ;    By: login____ <mail_______@student.42.fr>      +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: yyyy/mm/dd 15:27:11 by login____         #+#    #+#              ;
-;    Updated: 2017/05/05 21:00:28 by sclolus          ###   ########.fr        ;
+;    Updated: 2018/10/01 07:13:11 by sclolus          ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -290,3 +356,7 @@
 
 ;******************************************************************************;
 (provide 'header)
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+(define-key merlin-mode-map (kbd "C-c C-h") 'header-insert)
