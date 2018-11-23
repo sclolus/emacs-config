@@ -1,0 +1,14 @@
+/Users/sclolus/project/minishell/includes/grammar.txt
+/Users/sclolus/project/minishell/includes/#grammar.txt#
+/Users/sclolus/project/minishell/includes/minishell.h
+/Users/sclolus/project/minishell/includes/#minishell.h#
+/Users/sclolus/project/minishell/srcs/ft_get_shell_parser.c
+/Users/sclolus/project/minishell/srcs/#ft_get_shell_parser.c#
+/Users/sclolus/project/minishell/srcs/minishell.c
+/Users/sclolus/project/minishell/srcs/#minishell.c#
+/Users/sclolus/project/minishell/Makefile
+/Users/sclolus/project/minishell/#Makefile#
+/Users/sclolus/project/minishell/parser/ast/ft_eval_parser.c
+/Users/sclolus/project/minishell/parser/ast/#ft_eval_parser.c#
+/Users/sclolus/project/minishell/srcs/ft_checksum.c
+/Users/sclolus/project/minishell/srcs/#ft_checksum.c#

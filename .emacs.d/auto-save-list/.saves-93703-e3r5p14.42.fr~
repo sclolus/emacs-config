@@ -1,0 +1,16 @@
+/Users/sclolus/project/malloc/.gitignore
+/Users/sclolus/project/malloc/#.gitignore#
+/Users/sclolus/project/malloc/srcs/arena.c
+/Users/sclolus/project/malloc/srcs/#arena.c#
+/Users/sclolus/project/malloc/srcs/arena_list.c
+/Users/sclolus/project/malloc/srcs/#arena_list.c#
+/Users/sclolus/project/malloc/Makefile
+/Users/sclolus/project/malloc/#Makefile#
+/Users/sclolus/project/malloc/includes/ft_malloc.h
+/Users/sclolus/project/malloc/includes/#ft_malloc.h#
+/Users/sclolus/project/malloc/srcs/malloc_info.c
+/Users/sclolus/project/malloc/srcs/#malloc_info.c#
+/Users/sclolus/project/malloc/srcs/malloc.c
+/Users/sclolus/project/malloc/srcs/#malloc.c#
+/Users/sclolus/project/malloc/srcs/test.c
+/Users/sclolus/project/malloc/srcs/#test.c#
