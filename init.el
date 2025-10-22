@@ -15,7 +15,10 @@
  '(org-agenda-todo-ignore-scheduled 'all)
  '(org-agenda-todo-list-sublevels nil)
  '(package-selected-packages
-   '(jtsx prettier company tree-sitter-langs tree-sitter helm-core prisma-ts-mode lsp-mode typescript-mode yaml-mode elmacro xclip add-node-modules-path prettier-js flycheck web-mode rjsx-mode wc-mode markdown-mode idris-mode rust-mode helm undo-tree exotica-theme)))
+   '(visual-replace yasnippet eglot-booster jtsx prettier company tree-sitter-langs tree-sitter helm-core prisma-ts-mode lsp-mode typescript-mode yaml-mode elmacro xclip add-node-modules-path prettier-js flycheck web-mode rjsx-mode wc-mode markdown-mode idris-mode rust-mode helm undo-tree exotica-theme))
+ '(python-indent-offset 4 t)
+ '(typescript-indent-level 2)
+ '(visual-replace-preview-max-duration 0.5))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -177,14 +180,14 @@
 
 (use-package company)
 
-  (use-package tree-sitter
-  :ensure t
-  :config
-  ;; activate tree-sitter on any buffer containing code for which it has a parser available
-  (global-tree-sitter-mode)
-  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
-  ;; by switching on and off
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  ;; (use-package tree-sitter
+  ;; :ensure t
+  ;; :config
+  ;; ;; activate tree-sitter on any buffer containing code for which it has a parser available
+  ;; (global-tree-sitter-mode)
+  ;; ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
+  ;; ;; by switching on and off
+  ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
   :ensure t
@@ -195,6 +198,7 @@
 ;; Ensure Eglot is launched on Typescript buffers
 (add-hook 'typescript-mode-hook 'eglot-ensure)
 (add-hook 'jtsx-tsx-mode-hook 'eglot-ensure)
+(add-hook 'rust-mode-hook 'eglot-ensure)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . jtsx-tsx-mode))
 
 
@@ -219,6 +223,7 @@
      (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")
 	 (prisma "https://github.com/victorhqc/tree-sitter-prisma")
+	 ;; (rust "https://github.com/tree-sitter/tree-sitter-rust")
    ))
 (add-to-list 'auto-mode-alist '("\\.prisma\\'" . prisma-ts-mode))
 
@@ -241,9 +246,6 @@
 (dir-locals-set-directory-class "/home/sclolus/projects/serverless-api" 'prettier-js)
 (dir-locals-set-directory-class "/home/sclolus/projects/moonz-backoffice" 'prettier-js)
 
-(provide 'init)
-;;; init.el ends here
-
 
 ;; (add-hook 'org-mode
 ;; 		  (lambda ()
@@ -253,3 +255,79 @@
 
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 (global-set-key (kbd "C-x b") 'helm-mini)
+
+
+;; python configuration
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook
+		  (lambda ()
+			(setq tab-width 4)
+			(setq python-indent-offset 4)))
+(setq-default python-indent-offset 4)
+(setq-default python-indent-guess-indent-offset nil)
+
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(python-mode . ("pylsp")))
+;;   (setq eglot-workspace-configuration
+;;         '((:pylsp . (:plugins (:pycodestyle (:enabled t
+;;                                             :maxLineLength 9999)))))))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(python-mode . ("pylsp")))
+  (add-to-list 'eglot-server-programs
+               '(python-mode . ("pylsp")))
+  (setq-default eglot-workspace-configuration
+        '((:pylsp . (:plugins (:pycodestyle (:enabled t
+													  :ignore ["E501"])))))))
+
+;; (setq eglot-workspace-configuration
+;;       '((:pylsp . (:plugins (:pycodestyle (:enabled t
+;; 													:ignore ["E501"]))))))
+
+(message "eglot-workspace-configuration is currently set to %S" eglot-workspace-configuration)
+
+(defun modification-watcher (symbol newval operation where)
+  "Watch for changes to eglot-workspace-configuration."
+  (message "Variable %s changed to %s via %s in %s"
+           symbol newval operation where)
+  (backtrace))
+
+(add-variable-watcher 'eglot-workspace-configuration
+                      #'modification-watcher)
+
+(add-variable-watcher 'python-indent-offset #'modification-watcher)
+
+;; Set numerical priorities (1 = highest, 9 = lowest)
+(setq org-highest-priority 0)
+(setq org-lowest-priority 9)
+(setq org-default-priority 5)
+
+;; Optional: customize colors for numerical priorities
+(setq org-priority-faces '((0 . (:foreground "red" :weight bold))
+						   (1 . (:foreground "red" :weight bold))
+                          (2 . (:foreground "orange" :weight bold))
+                          (3 . (:foreground "yellow" :weight bold))
+                          (4 . (:foreground "green"))
+                          (5 . (:foreground "blue"))
+                          (6 . (:foreground "purple"))
+                          (7 . (:foreground "brown"))
+                          (8 . (:foreground "gray"))
+                          (9 . (:foreground "dark gray"))))
+
+(message "[MY DEBUG] Init.file was indeed loaded")
+(use-package eglot-booster
+	:after eglot
+	:config	(eglot-booster-mode))
+
+(require 'visual-replace)
+(visual-replace-global-mode 1)
+
+(provide 'init)
+
+;;; flymd integration fix
+ (defun my-flymd-browser-function (url)
+   (let ((browse-url-browser-function 'browse-url-firefox))
+     (browse-url url)))
+ (setq flymd-browser-open-function 'my-flymd-browser-function)
+;;; init.el ends here
